@@ -6,7 +6,7 @@ on:
 
 env:
   NuGetDirectory: ${{ github.workspace}}/nuget      
-  NuGetRegistry: https://nuget.pkg.github.com/${{ env.NAMESPACE }}/index.json
+  NuGetRegistry: https://nuget.pkg.github.com/${{ env.namespace }}/index.json
 
 jobs:
   build:
