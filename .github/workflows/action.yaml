@@ -7,8 +7,7 @@ on:
 env:
   NuGetDirectory: ${{ github.workspace}}/nuget      
   NuGetRegistry: https://nuget.pkg.github.com/davidclaeysquinones/index.json
-  ProjectName : MsgReader**
-
+  ProjectName : MsgReader.csproj
 jobs:
   build:
     runs-on: ubuntu-latest
