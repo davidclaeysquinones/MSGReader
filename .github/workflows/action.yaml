@@ -1,0 +1,31 @@
+name: 'Build and publish NuGet'
+on: 
+  push:
+    branches:
+      - publish
+
+env:
+  NuGetDirectory: ${{ github.workspace}}/nuget      
+  NuGetRegistry: https://nuget.pkg.github.com/${{ env.NAMESPACE }}/index.json
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+          working-directory: '${{ github.workspace }}'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+      - name: Pack NuGet package
+        run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
+      - name: Authenticate regristry
+        run: |
+          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github ${{ env.NuGetRegistry }}
+      - name: Publish NuGet package
+        run: |
+          foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
+              dotnet nuget push $file --source github --skip-duplicate
+          }
