@@ -20,7 +20,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
       - name: Pack NuGet package
-        run: dotnet pack $ {{ env.ProjectName}}--configuration Release --output ${{ env.NuGetDirectory }}
+        run: dotnet pack ${{ env.ProjectName}}--configuration Release --output ${{ env.NuGetDirectory }}
       - name: Authenticate regristry
         run: |
           dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github ${{ env.NuGetRegistry }}
